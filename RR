@@ -1,0 +1,89 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct Process{
+    int id;
+    int AT;
+    int BT;
+    int CT;
+    int TAT;
+    int WT;
+};
+void calculateTime(Process proc[],int n, int q)
+{
+    int rem_time[n];
+    for(int i=0; i<n; i++)
+    {
+        rem_time[i] = proc[i].BT;
+    }
+    int currentTime=0;
+    bool allDone = false;
+    while(!allDone)
+    {
+        allDone=true;
+        for(int i=0; i<n; i++)
+        {
+            if(rem_time[i]>0)
+            {
+                allDone=false;
+                if(rem_time[i]>q)
+                {
+                    currentTime = currentTime+q;
+                    rem_time[i]=rem_time[i]-q;
+                }
+                else
+                {
+                    currentTime = currentTime+rem_time[i];
+                    proc[i].CT = currentTime;
+                    rem_time[i]=0;
+
+                }
+            }
+        }
+    }
+
+}
+
+
+void calTAT(Process proc[],int n)
+{
+    for(int i=0; i<n; i++)
+        proc[i].TAT = proc[i].CT -proc[i].AT;
+
+}
+void calWT(Process proc[],int n)
+{
+    proc[i].TAT = proc[i].TAT -proc[i].BT;
+
+
+}
+int main()
+{
+    int n,q;
+    cout<<"Enter number of process: ";
+    cin>>n;
+    cout<<"Enter time quantum: ";
+    cin>>q;
+
+    Process proc[n];
+    cout<<"Enter process details: ";
+    for(int i=0; i<n; i++)
+    {
+        cout<<"Process" <<i+1<<endl;
+        cout<<proc[i].id = i+1;
+        cout<<"AT: ";
+        cin>>proc[i].AT;
+        cout<<"BT: ";
+        cin>>proc[i].BT;
+
+    }
+    calculateTime(proc,n,q);
+    calTAT(proc,n);
+    calWT(proc,n);
+
+    cout<<"RR ";
+    print(proc,n);
+
+
+
+}
